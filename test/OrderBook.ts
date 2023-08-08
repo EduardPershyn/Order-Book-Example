@@ -168,16 +168,15 @@ describe("OrderBook", function () {
         const player1 = accounts[1];
         const player2 = accounts[2];
 
-        await tokenA.transfer(player1, 100);
-        //await tokenB.transfer(player1, 50);
-        //await tokenA.transfer(player2, 10);
-        await tokenB.transfer(player2, 5);
-
         const deadline = +new Date() + 60 * 60;
-        const order1SellAmount = 100;
-        const order1BuyAmount = 50;
-        const order2BuyAmount = 10;
-        const order2SellAmount = 5;
+        const order2SellAmount = 100;
+        const order2BuyAmount = 50;
+        const order1BuyAmount = 10;
+        const order1SellAmount = 5;
+
+        await tokenA.transfer(player1, order1SellAmount);
+        await tokenB.transfer(player2, order2SellAmount);
+
         const permitSig1 = await allownessSig(tokenA, player1, bookAddress, order1SellAmount, deadline, "TokenA");
         const permitSig2 = await allownessSig(tokenB, player2, bookAddress, order2SellAmount, deadline, "TokenB");
 

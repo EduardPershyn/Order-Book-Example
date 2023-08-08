@@ -29,24 +29,6 @@ contract OrderBook is EIP712 {
 
     }
 
-//    struct SellOrder {
-//        address account;
-//        address sellToken;
-//        uint256 sellAmount;
-//        address buyToken;
-//        uint256 buyAmount;
-//        uint256 expireBy;
-//    }
-//
-//    struct BuyOrder {
-//        address account;
-//        address buyToken;
-//        uint256 buyAmount;
-//        address sellToken;
-//        uint256 sellAmount;
-//        uint256 expireBy;
-//    }
-
     struct Signature {
         uint8 v;
         bytes32 r;
@@ -62,23 +44,23 @@ contract OrderBook is EIP712 {
         ERC20Permit tokenB = ERC20Permit(buyOrder.sellToken);
 
         //ERC20 allowance update
-        console.log("h!-1");
+        //console.log("h!-1");
         if (tokenA.allowance(sellOrder.account, address(this)) < sellOrder.sellAmount) {
             tokenA.permit(sellOrder.account, address(this), sellOrder.sellAmount, sellOrder.expireBy,
                 spendSig1.v, spendSig1.r, spendSig1.s);
         }
-        console.log("h!0");
+        //console.log("h!0");
         if (tokenB.allowance(buyOrder.account, address(this)) < buyOrder.sellAmount) {
             tokenB.permit(buyOrder.account, address(this), buyOrder.sellAmount, buyOrder.expireBy,
                 spendSig2.v, spendSig2.r, spendSig2.s);
         }
 
         //Verify orders sigs
-        console.log("h!1");
+        //console.log("h!1");
         verifyOrderSig(_SELL_ORDER_TYPEHASH, sellOrder, orderSig1);
-        console.log("h!2");
+        //console.log("h!2");
         verifyOrderSig(_BUY_ORDER_TYPEHASH, buyOrder, orderSig2);
-        console.log("h!3");
+        //console.log("h!3");
 
         //Execute orders
         if (sellOrder.sellAmount > buyOrder.buyAmount) {
